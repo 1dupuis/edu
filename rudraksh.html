@@ -1,726 +1,1482 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India: A Journey Through Time</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>India: A Journey Through Time</title>
+  
+  <!-- Tailwind CSS -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+    rel="stylesheet"
+  />
 
-        :root {
-            --saffron: #FF9933;
-            --green: #138808;
-            --blue: #000080;
-            --chakra-blue: #000080;
-        }
+  <!-- FontAwesome Icons -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+  />
 
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+  <!-- Canvas-Confetti (for the celebration effect) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js" defer></script>
+  
+  <!-- Google Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
 
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-        }
+    :root {
+      --saffron: #ff9933;
+      --green: #138808;
+      --blue: #000080;
+      --chakra-blue: #000080;
+      --bg-light: #ffffff;
+      --text-light: #000000;
+      --bg-dark: #1f2937;
+      --text-dark: #f3f4f6;
+    }
 
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i0.wp.com/traveltoyournature.com/wp-content/uploads/2023/07/beautiful-mountain-nature-destinations-india.jpg?resize=600%2C800');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            position: relative;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
 
-        .hero-pattern {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-image: repeating-linear-gradient(45deg, var(--saffron) 0, var(--saffron) 10px, transparent 0, transparent 50%);
-            opacity: 0.3;
-        }
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('https://i0.wp.com/traveltoyournature.com/wp-content/uploads/2023/07/beautiful-mountain-nature-destinations-india.jpg?resize=600%2C800');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      position: relative;
+    }
+    .hero-pattern {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background-image: repeating-linear-gradient(
+        45deg,
+        var(--saffron) 0,
+        var(--saffron) 10px,
+        transparent 0,
+        transparent 50%
+      );
+      opacity: 0.3;
+    }
 
-        .timeline-node {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    /* Timeline */
+    .timeline-node {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0; /* fade-in from 0 */
+      transform: translateY(30px); /* fade-in offset */
+    }
+    .timeline-node:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    .timeline-container {
+      overflow-x: auto;
+      padding: 2rem 0;
+      position: relative;
+    }
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--saffron);
+      transform: translateY(-50%);
+    }
+    .timeline {
+      display: flex;
+      align-items: center;
+      min-width: max-content;
+      padding: 0 2rem;
+      position: relative;
+    }
 
-        .timeline-node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
+    /* Popups */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      background: var(--bg-light);
+      color: var(--text-light);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      backdrop-filter: blur(5px);
+    }
 
-        .timeline-container {
-            overflow-x: auto;
-            padding: 2rem 0;
-            position: relative;
-        }
+    /* Figure Cards */
+    .figure-card {
+      transition: all 0.3s ease;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .figure-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
 
-        .timeline-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--saffron);
-            transform: translateY(-50%);
-        }
+    /* Navigation */
+    nav {
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
 
-        .timeline {
-            display: flex;
-            align-items: center;
-            min-width: max-content;
-            padding: 0 2rem;
-            position: relative;
-        }
+    /* Custom Button */
+    .custom-button {
+      background: linear-gradient(45deg, var(--saffron), var(--green));
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .custom-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .custom-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      transition: 0.5s;
+    }
+    .custom-button:hover::before {
+      left: 100%;
+    }
 
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+    /* Quiz */
+    .quiz-container {
+      background: var(--bg-light);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .quiz-option {
+      cursor: pointer;
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .quiz-option:hover {
+      border-color: var(--saffron);
+      background: #fff9f2;
+    }
+    .quiz-option.correct {
+      border-color: var(--green);
+      background: #f0fff4;
+    }
+    .quiz-option.incorrect {
+      border-color: #e53e3e;
+      background: #fff5f5;
+    }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            backdrop-filter: blur(5px);
-        }
+    /* Carousel */
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      padding: 0 1rem;
+    }
+    .carousel-button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.3s;
+    }
+    .carousel-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
 
-        .figure-card {
-            transition: all 0.3s ease;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+    /* Fade-in Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .fade-in.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .figure-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
+    /* Lazy Loading */
+    img[data-src] {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    img.lazy-loaded {
+      opacity: 1;
+    }
 
-        .nav-link {
-            position: relative;
-            overflow: hidden;
-        }
+    /* Scroll to Top */
+    #scrollToTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 3rem;
+      right: 3rem;
+      z-index: 9999;
+      background: var(--saffron);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #scrollToTopBtn:hover {
+      background: var(--green);
+    }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--green);
-            transition: width 0.3s ease;
-        }
+    /* Dark Mode */
+    .dark-mode {
+      background-color: var(--bg-dark) !important;
+      color: var(--text-dark) !important;
+    }
+    .dark-mode nav {
+      background-color: #374151 !important; /* Equivalent to bg-gray-700 */
+    }
+    .dark-mode .popup {
+      background: var(--bg-dark) !important;
+      color: var(--text-dark) !important;
+    }
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .custom-button {
-            background: linear-gradient(45deg, var(--saffron), var(--green));
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .custom-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .custom-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: 0.5s;
-        }
-
-        .custom-button:hover::before {
-            left: 100%;
-        }
-
-        .quiz-container {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .quiz-option {
-            cursor: pointer;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .quiz-option:hover {
-            border-color: var(--saffron);
-            background: #fff9f2;
-        }
-
-        .quiz-option.correct {
-            border-color: var(--green);
-            background: #f0fff4;
-        }
-
-        .quiz-option.incorrect {
-            border-color: #e53e3e;
-            background: #fff5f5;
-        }
-
-        @media (max-width: 768px) {
-            .hero-section {
-                height: 70vh;
-            }
-
-            .nav-menu {
-                flex-direction: column;
-            }
-
-            .popup {
-                width: 95%;
-                max-height: 80vh;
-            }
-        }
-    </style>
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        height: 70vh;
+      }
+      .nav-menu {
+        flex-direction: column;
+      }
+      .popup {
+        width: 95%;
+        max-height: 80vh;
+      }
+      #scrollToTopBtn {
+        right: 1rem;
+        bottom: 1rem;
+      }
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
-    <nav class="fixed w-full bg-white shadow-lg z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between">
-                <div class="flex space-x-7">
-                    <div class="flex items-center py-4">
-                        <span class="font-bold text-2xl text-gray-800">India Heritage</span>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#timeline" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Timeline</a>
-                    <a href="#figures" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Key Figures</a>
-                    <a href="#cultural" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Cultural Highlights</a>
-                    <a href="#interactive" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Interactive</a>
-                    <a href="#modern" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Modern India</a>
-                    <a href="#resources" class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300">Resources</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+  <!-- NAVBAR -->
+  <nav class="fixed w-full bg-white shadow-lg z-50">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center py-4">
+        <span class="font-bold text-2xl nav-logo text-gray-800">India Heritage</span>
+      </div>
 
-    <div class="hero-section flex items-center justify-center">
-        <div class="text-center text-white">
-            <h1 class="text-6xl font-bold mb-6">India: A Journey Through Time</h1>
-            <p class="text-2xl mb-6">Exploring the vibrant history of one of the world's oldest civilizations</p>
-            <p class="text-2xl mb-12">By: Rudraksh Raval</p>
-            <a href="#timeline" class="custom-button inline-block">
-                Start Exploring
-                <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
-        <div class="hero-pattern"></div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-8 nav-menu">
+        <a
+          href="#timeline"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Timeline</a
+        >
+        <a
+          href="#figures"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Key Figures</a
+        >
+        <a
+          href="#cultural"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Cultural Highlights</a
+        >
+        <a
+          href="#interactive"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Interactive</a
+        >
+        <a
+          href="#modern"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Modern India</a
+        >
+        <a
+          href="#resources"
+          class="nav-link py-4 px-2 text-gray-700 hover:text-green-500 transition duration-300"
+          >Resources</a
+        >
+
+        <!-- Dark Mode Toggle -->
+        <button
+          id="darkModeToggle"
+          class="ml-4 bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400"
+          title="Toggle Dark Mode"
+        >
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden flex items-center text-gray-700"
+        onclick="toggleMobileMenu()"
+      >
+        <i class="fas fa-bars fa-2x"></i>
+      </button>
     </div>
 
-    <section id="timeline" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Journey Through Time</h2>
-            <div class="timeline-container">
-                <div class="timeline">
-                    <div class="timeline-node mx-8" onclick="showTimelinePopup('indus')">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-saffron to-orange-600 flex items-center justify-center text-white cursor-pointer shadow-lg">
-                            <div class="text-center p-4">
-                                <div class="font-bold text-xl">2500 BCE</div>
-                                <div class="text-sm">Indus Valley</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-node mx-8" onclick="showTimelinePopup('maurya')">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white cursor-pointer shadow-lg">
-                            <div class="text-center p-4">
-                                <div class="font-bold text-xl">322 BCE</div>
-                                <div class="text-sm">Maurya Empire</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-node mx-8" onclick="showTimelinePopup('gupta')">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white cursor-pointer shadow-lg">
-                            <div class="text-center p-4">
-                                <div class="font-bold text-xl">300 CE</div>
-                                <div class="text-sm">Gupta Empire</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-node mx-8" onclick="showTimelinePopup('sultanate')">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white cursor-pointer shadow-lg">
-                            <div class="text-center p-4">
-                                <div class="font-bold text-xl">1206 CE</div>
-                                <div class="text-sm">Delhi Sultanate</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-node mx-8" onclick="showTimelinePopup('mughal')">
-                        <div class="w-40 h-40 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white cursor-pointer shadow-lg">
-                            <div class="text-center p-4">
-                                <div class="font-bold text-xl">1526 CE</div>
-                                <div class="text-sm">Mughal Empire</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Mobile Menu (hidden by default) -->
+    <div class="hidden md:hidden flex-col space-y-2 p-4" id="mobileNav">
+      <a
+        href="#timeline"
+        class="py-2 text-gray-700 hover:text-green-500 border-b border-gray-200"
+        >Timeline</a
+      >
+      <a
+        href="#figures"
+        class="py-2 text-gray-700 hover:text-green-500 border-b border-gray-200"
+        >Key Figures</a
+      >
+      <a
+        href="#cultural"
+        class="py-2 text-gray-700 hover:text-green-500 border-b border-gray-200"
+        >Cultural Highlights</a
+      >
+      <a
+        href="#interactive"
+        class="py-2 text-gray-700 hover:text-green-500 border-b border-gray-200"
+        >Interactive</a
+      >
+      <a
+        href="#modern"
+        class="py-2 text-gray-700 hover:text-green-500 border-b border-gray-200"
+        >Modern India</a
+      >
+      <a
+        href="#resources"
+        class="py-2 text-gray-700 hover:text-green-500"
+        >Resources</a
+      >
 
-    <section id="figures" class="py-20 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Key Historical Figures</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="figure-card bg-white">
-                    <img src="https://www.tsemrinpoche.com/wp-content/uploads/2016/06/EmperorAshoka029.jpg" alt="Ashoka the Great" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Ashoka the Great</h3>
-                        <p class="text-gray-600 mb-4">304-232 BCE</p>
-                        <p class="mb-4">Third emperor of the Mauryan Empire, known for spreading Buddhism and his principles of dharma.</p>
-                        <button onclick="showFigurePopup('ashoka')" class="text-green-600 hover:text-green-700 font-semibold">
-                            Learn More <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="figure-card bg-white">
-                    <img src="https://assets.editorial.aetnd.com/uploads/2010/07/mahatma-gandhi-gettyimages-102701091-2048x2048-1.jpg?width=3840&height=1920&crop=3840%3A1920%2Csmart&quality=75&auto=webp" alt="Mahatma Gandhi" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Mahatma Gandhi</h3>
-                        <p class="text-gray-600 mb-4">1869-1948 CE</p>
-                        <p class="mb-4">Leader of India's independence movement, known for his philosophy of non-violence.</p>
-                        <button onclick="showFigurePopup('gandhi')" class="text-green-600 hover:text-green-700 font-semibold">
-                            Learn More <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="cultural" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Cultural Highlights</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="bg-gray-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <h3 class="text-2xl font-bold mb-6">Arts & Architecture</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="relative group cursor-pointer" onclick="showCulturalPopup('taj')">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/250px-Taj_Mahal_%28Edited%29.jpeg" alt="Taj Mahal" class="rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-semibold">Taj Mahal</span>
-                            </div>
-                        </div>
-                        <div class="relative group cursor-pointer" onclick="showCulturalPopup('ajanta')">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ajanta_%2863%29.jpg/300px-Ajanta_%2863%29.jpg" alt="Ajanta Caves" class="rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-semibold">Ajanta Caves</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Discover India's architectural marvels, from ancient cave temples to Mughal masterpieces.</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <h3 class="text-2xl font-bold mb-6">Food & Festivals</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="relative group cursor-pointer" onclick="showCulturalPopup('food')">
-                            <img src="https://d3d0lqu00lnqvz.cloudfront.net/media/media/42bfb23f-38e3-4198-9336-5aa22b75093e.jpg" alt="Indian Cuisine" class="rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-semibold">Cuisine</span>
-                            </div>
-                        </div>
-                        <div class="relative group cursor-pointer" onclick="showCulturalPopup('diwali')">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/The_Rangoli_of_Lights.jpg" alt="Diwali Festival" class="rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                                <span class="text-white font-semibold">Diwali</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mb-4">Experience the flavors and celebrations that make Indian culture unique.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="interactive" class="py-20 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Interactive Features</h2>
-            
-            <div class="mb-16">
-                <h3 class="text-2xl font-bold mb-8">Historical Quiz</h3>
-                <div class="quiz-container">
-                    <div id="quiz-question" class="mb-8">
-                        <h4 class="text-xl font-bold mb-4">Who said: "Be the change you wish to see in the world"?</h4>
-                        <div class="space-y-4">
-                            <div class="quiz-option" onclick="checkAnswer(this, 'gandhi')">
-                                Mahatma Gandhi
-                            </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, 'wrong')">
-                                Jawaharlal Nehru
-                            </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, 'wrong')">
-                                Rabindranath Tagore
-                            </div>
-                            <div class="quiz-option" onclick="checkAnswer(this, 'wrong')">
-                                Subhas Chandra Bose
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="modern" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Modern India</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-                <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6">Green Revolution</h3>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Punjab_Monsoon.jpg/250px-Punjab_Monsoon.jpg" alt="Green Revolution" class="rounded-lg mb-6">
-                    <p class="text-gray-700">Agricultural transformation that led to increased food production and self-sufficiency.</p>
-                </div>
-                
-                <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6">Space Program</h3>
-                    <img src="https://www.thespacereview.com/archive/4849a.jpg" alt="ISRO" class="rounded-lg mb-6">
-                    <p class="text-gray-700">ISRO's achievements in space exploration and satellite technology.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="resources" class="py-20 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16">Resources</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-white rounded-lg p-8 shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6">Recommended Books</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <i class="fas fa-book mr-3 text-green-600"></i>
-                            <span>India: A History by John Keay</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-book mr-3 text-green-600"></i>
-                            <span>The Wonder That Was India by A.L. Basham</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white rounded-lg p-8 shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6">Documentaries</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <i class="fas fa-film mr-3 text-green-600"></i>
-                            <span>The Story of India (BBC)</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-film mr-3 text-green-600"></i>
-                            <span>India: Kingdom of the Tiger</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="bg-white rounded-lg p-8 shadow-lg">
-                    <h3 class="text-2xl font-bold mb-6">Teaching Resources</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <i class="fas fa-download mr-3 text-green-600"></i>
-                            <a href="#" class="text-green-600 hover:text-green-700">Lesson Plans (PDF)</a>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-download mr-3 text-green-600"></i>
-                            <a href="#" class="text-green-600 hover:text-green-700">Activity Worksheets</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h4 class="text-xl font-bold mb-4">India Heritage</h4>
-                    <p class="text-gray-400">Exploring the rich cultural heritage of India</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#timeline" class="text-gray-400 hover:text-white">Timeline</a></li>
-                        <li><a href="#figures" class="text-gray-400 hover:text-white">Key Figures</a></li>
-                        <li><a href="#cultural" class="text-gray-400 hover:text-white">Cultural Highlights</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold mb-4">Contact</h4>
-                    <form id="feedback-form" class="space-y-4">
-                        <input type="email" placeholder="Your Email" class="w-full p-2 rounded bg-gray-700 text-white">
-                        <textarea placeholder="Your Feedback" class="w-full p-2 rounded bg-gray-700 text-white"></textarea>
-                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Send</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="popup" class="popup">
-        <div id="popupContent"></div>
-        <button onclick="hidePopup()" class="mt-4 bg-gray-500 text-white px-4 py-2 rounded">Close</button>
+      <button
+        id="darkModeToggleMobile"
+        class="mt-4 bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400"
+      >
+        <i class="fas fa-moon"></i>
+      </button>
     </div>
-    <div id="overlay" class="overlay" onclick="hidePopup()"></div>
+  </nav>
 
-    <script>
-        const timelineData = {
-            indus: {
-                title: "Indus Valley Civilization (2500 BCE)",
-                content: "One of the world's earliest urban civilizations, known for its advanced city planning and sophisticated drainage systems.",
-                image: "b"
-            },
-            maurya: {
-                title: "Maurya Empire (322 BCE)",
-                content: "India's first empire under Chandragupta Maurya, reaching its peak under Emperor Ashoka.",
-                image: "b"
-            },
-            gupta: {
-                title: "Gupta Empire (300 CE)",
-                content: "Known as the Golden Age of India, marked by advances in science, art, and literature.",
-                image: "b"
-            },
-            sultanate: {
-                title: "Delhi Sultanate (1206 CE)",
-                content: "Series of Muslim dynasties that ruled northern India, introducing Islamic architecture and culture.",
-                image: "b"
-            },
-            mughal: {
-                title: "Mughal Empire (1526 CE)",
-                content: "Period of great cultural synthesis, producing monuments like the Taj Mahal.",
-                image: "b"
+  <!-- HERO SECTION -->
+  <div class="hero-section flex items-center justify-center">
+    <div class="text-center text-white">
+      <h1 class="text-6xl font-bold mb-6">India: A Journey Through Time</h1>
+      <p class="text-2xl mb-6">
+        Exploring the vibrant history of one of the world's oldest civilizations
+      </p>
+      <p class="text-2xl mb-12">By: Rudraksh Raval</p>
+      <a href="#timeline" class="custom-button inline-block">
+        Start Exploring
+        <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+    </div>
+    <div class="hero-pattern"></div>
+  </div>
+
+  <!-- TIMELINE SECTION -->
+  <section id="timeline" class="py-20 bg-white fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Journey Through Time</h2>
+      <div class="timeline-container">
+        <div class="timeline" id="timelineNodes">
+          <!-- Timeline nodes (fade in on load) -->
+          <div class="timeline-node mx-8" onclick="showTimelinePopup('indus')">
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-saffron to-orange-600 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">2500 BCE</div>
+                <div class="text-sm">Indus Valley</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-node mx-8" onclick="showTimelinePopup('maurya')">
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">322 BCE</div>
+                <div class="text-sm">Maurya Empire</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-node mx-8" onclick="showTimelinePopup('gupta')">
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">300 CE</div>
+                <div class="text-sm">Gupta Empire</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="timeline-node mx-8"
+            onclick="showTimelinePopup('sultanate')"
+          >
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">1206 CE</div>
+                <div class="text-sm">Delhi Sultanate</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-node mx-8" onclick="showTimelinePopup('mughal')">
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">1526 CE</div>
+                <div class="text-sm">Mughal Empire</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colonial India -->
+          <div
+            class="timeline-node mx-8"
+            onclick="showTimelinePopup('colonial')"
+          >
+            <div
+              class="w-40 h-40 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-white shadow-lg"
+            >
+              <div class="text-center p-4">
+                <div class="font-bold text-xl">1757 CE</div>
+                <div class="text-sm">Colonial Era</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY FIGURES SECTION (Carousel) -->
+  <section id="figures" class="py-20 bg-gray-100 fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Key Historical Figures</h2>
+
+      <div class="carousel-container relative">
+        <div class="carousel-track" id="figureCarousel">
+          <!-- Slide 1 -->
+          <div class="carousel-item flex flex-col md:flex-row space-x-0 md:space-x-8 px-4">
+            <!-- Card 1 -->
+            <div class="figure-card bg-white w-full md:w-1/2 mb-8 md:mb-0">
+              <img
+                data-src="https://www.tsemrinpoche.com/wp-content/uploads/2016/06/EmperorAshoka029.jpg"
+                alt="Ashoka the Great"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Ashoka the Great</h3>
+                <p class="text-gray-600 mb-4">304-232 BCE</p>
+                <p class="mb-4">
+                  Third emperor of the Mauryan Empire, known for spreading
+                  Buddhism and his principles of dharma.
+                </p>
+                <button
+                  onclick="showFigurePopup('ashoka')"
+                  class="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="figure-card bg-white w-full md:w-1/2">
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Mohandas_K._Gandhi%2C_portrait.jpg/300px-Mohandas_K._Gandhi%2C_portrait.jpg"
+                alt="Mahatma Gandhi"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Mahatma Gandhi</h3>
+                <p class="text-gray-600 mb-4">1869-1948 CE</p>
+                <p class="mb-4">
+                  Leader of India's independence movement, known for his
+                  philosophy of non-violence.
+                </p>
+                <button
+                  onclick="showFigurePopup('gandhi')"
+                  class="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item flex flex-col md:flex-row space-x-0 md:space-x-8 px-4">
+            <!-- Card 3 -->
+            <div class="figure-card bg-white w-full md:w-1/2 mb-8 md:mb-0">
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Bhagat_singh_1929.jpg"
+                alt="Bhagat Singh"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Bhagat Singh</h3>
+                <p class="text-gray-600 mb-4">1907-1931 CE</p>
+                <p class="mb-4">
+                  A revolutionary freedom fighter who inspired youth across
+                  India with his sacrifice and patriotism.
+                </p>
+                <button
+                  onclick="showFigurePopup('bhagatsingh')"
+                  class="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="figure-card bg-white w-full md:w-1/2">
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/d/df/Subhas_Chandra_Bose_NR.jpg"
+                alt="Subhas Chandra Bose"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Subhas Chandra Bose</h3>
+                <p class="text-gray-600 mb-4">1897-1945 CE</p>
+                <p class="mb-4">
+                  A prominent nationalist leader who founded the Indian
+                  National Army (INA) during World War II.
+                </p>
+                <button
+                  onclick="showFigurePopup('bose')"
+                  class="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item flex flex-col md:flex-row space-x-0 md:space-x-8 px-4">
+            <!-- Card 5 -->
+            <div class="figure-card bg-white w-full">
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Jawaharlal_Nehru_in_India_League_of_London.jpg/300px-Jawaharlal_Nehru_in_India_League_of_London.jpg"
+                alt="Jawaharlal Nehru"
+                class="w-full h-48 object-cover"
+              />
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Jawaharlal Nehru</h3>
+                <p class="text-gray-600 mb-4">1889–1964 CE</p>
+                <p class="mb-4">
+                  First Prime Minister of India, a central figure in Indian
+                  politics before and after independence.
+                </p>
+                <button
+                  onclick="showFigurePopup('nehru')"
+                  class="text-green-600 hover:text-green-700 font-semibold"
+                >
+                  Learn More <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel Navigation -->
+        <div class="carousel-nav">
+          <button
+            class="carousel-button"
+            onclick="moveCarousel(-1)"
+            aria-label="Previous slide"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button
+            class="carousel-button"
+            onclick="moveCarousel(1)"
+            aria-label="Next slide"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULTURAL HIGHLIGHTS SECTION -->
+  <section id="cultural" class="py-20 bg-white fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Cultural Highlights</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div
+          class="bg-gray-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
+          <h3 class="text-2xl font-bold mb-6">Arts &amp; Architecture</h3>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div
+              class="relative group cursor-pointer"
+              onclick="showCulturalPopup('taj')"
+            >
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/250px-Taj_Mahal_%28Edited%29.jpeg"
+                alt="Taj Mahal"
+                class="rounded-lg"
+              />
+              <div
+                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center"
+              >
+                <span class="text-white font-semibold">Taj Mahal</span>
+              </div>
+            </div>
+            <div
+              class="relative group cursor-pointer"
+              onclick="showCulturalPopup('ajanta')"
+            >
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ajanta_%2863%29.jpg/300px-Ajanta_%2863%29.jpg"
+                alt="Ajanta Caves"
+                class="rounded-lg"
+              />
+              <div
+                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center"
+              >
+                <span class="text-white font-semibold">Ajanta Caves</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">
+            Discover India's architectural marvels, from ancient cave temples to
+            Mughal masterpieces.
+          </p>
+        </div>
+
+        <div
+          class="bg-gray-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
+          <h3 class="text-2xl font-bold mb-6">Food &amp; Festivals</h3>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div
+              class="relative group cursor-pointer"
+              onclick="showCulturalPopup('food')"
+            >
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Chaat_Indian_food.JPG/300px-Chaat_Indian_food.JPG"
+                alt="Indian Cuisine"
+                class="rounded-lg"
+              />
+              <div
+                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center"
+              >
+                <span class="text-white font-semibold">Cuisine</span>
+              </div>
+            </div>
+            <div
+              class="relative group cursor-pointer"
+              onclick="showCulturalPopup('diwali')"
+            >
+              <img
+                data-src="https://upload.wikimedia.org/wikipedia/commons/9/99/The_Rangoli_of_Lights.jpg"
+                alt="Diwali Festival"
+                class="rounded-lg"
+              />
+              <div
+                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center"
+              >
+                <span class="text-white font-semibold">Diwali</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">
+            Experience the flavors and celebrations that make Indian culture
+            unique.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE SECTION -->
+  <section id="interactive" class="py-20 bg-gray-100 fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Interactive Features</h2>
+
+      <!-- Historical Quiz with multiple questions -->
+      <div class="mb-16">
+        <h3 class="text-2xl font-bold mb-8">Historical Quiz</h3>
+        <div class="quiz-container">
+          <!-- Name Input -->
+          <div class="mb-6">
+            <label
+              for="quizName"
+              class="block text-gray-700 font-semibold mb-2"
+              >Enter your name for the certificate:</label
+            >
+            <input
+              type="text"
+              id="quizName"
+              class="border border-gray-300 px-4 py-2 rounded w-full"
+              placeholder="Your Name"
+            />
+          </div>
+          <!-- Quiz Progress -->
+          <div class="h-2 bg-gray-200 rounded mb-6 overflow-hidden">
+            <div
+              id="quizProgressBar"
+              class="h-full bg-green-600 rounded w-0"
+            ></div>
+          </div>
+          <!-- Quiz Questions -->
+          <div id="quiz-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODERN INDIA SECTION -->
+  <section id="modern" class="py-20 bg-white fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Modern India</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+        <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Green Revolution</h3>
+          <img
+            data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Punjab_Monsoon.jpg/300px-Punjab_Monsoon.jpg"
+            alt="Green Revolution"
+            class="rounded-lg mb-6"
+          />
+          <p class="text-gray-700">
+            Agricultural transformation that led to increased food production
+            and self-sufficiency.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Space Program</h3>
+          <img
+            data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/PSLV-C49_Launch.png/300px-PSLV-C49_Launch.png"
+            alt="ISRO"
+            class="rounded-lg mb-6"
+          />
+          <p class="text-gray-700">
+            ISRO's achievements in space exploration and satellite technology,
+            including missions to the Moon and Mars.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES SECTION -->
+  <section id="resources" class="py-20 bg-gray-100 fade-in">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Resources</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="bg-white rounded-lg p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Recommended Books</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center">
+              <i class="fas fa-book mr-3 text-green-600"></i>
+              <span>India: A History by John Keay</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-book mr-3 text-green-600"></i>
+              <span>The Wonder That Was India by A.L. Basham</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-book mr-3 text-green-600"></i>
+              <span>India After Gandhi by Ramachandra Guha</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-lg p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Documentaries</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center">
+              <i class="fas fa-film mr-3 text-green-600"></i>
+              <span>The Story of India (BBC)</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-film mr-3 text-green-600"></i>
+              <span>India: Kingdom of the Tiger</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-film mr-3 text-green-600"></i>
+              <span>Gandhi (1982) - Biographical film</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white rounded-lg p-8 shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Teaching Resources</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center">
+              <i class="fas fa-download mr-3 text-green-600"></i>
+              <a href="#" class="text-green-600 hover:text-green-700"
+                >Lesson Plans (PDF)</a
+              >
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-download mr-3 text-green-600"></i>
+              <a href="#" class="text-green-600 hover:text-green-700"
+                >Activity Worksheets</a
+              >
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-download mr-3 text-green-600"></i>
+              <a href="#" class="text-green-600 hover:text-green-700"
+                >Interactive Slideshow</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h4 class="text-xl font-bold mb-4">India Heritage</h4>
+          <p class="text-gray-400">
+            Exploring the rich cultural heritage of India
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xl font-bold mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#timeline" class="text-gray-400 hover:text-white"
+                >Timeline</a
+              >
+            </li>
+            <li>
+              <a href="#figures" class="text-gray-400 hover:text-white"
+                >Key Figures</a
+              >
+            </li>
+            <li>
+              <a href="#cultural" class="text-gray-400 hover:text-white"
+                >Cultural Highlights</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xl font-bold mb-4">Contact</h4>
+          <form id="feedback-form" class="space-y-4">
+            <input
+              type="email"
+              placeholder="Your Email"
+              class="w-full p-2 rounded bg-gray-700 text-white"
+            />
+            <textarea
+              placeholder="Your Feedback"
+              class="w-full p-2 rounded bg-gray-700 text-white"
+            ></textarea>
+            <button
+              type="submit"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCROLL TO TOP BUTTON -->
+  <div id="scrollToTopBtn" title="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- POPUP & OVERLAY -->
+  <div id="popup" class="popup">
+    <div id="popupContent"></div>
+    <button
+      onclick="hidePopup()"
+      class="mt-4 bg-gray-500 text-white px-4 py-2 rounded"
+    >
+      Close
+    </button>
+  </div>
+  <div id="overlay" class="overlay" onclick="hidePopup()"></div>
+
+  <!-- JS SCRIPTS -->
+  <script>
+    /********************
+     * TIMELINE DATA
+     ********************/
+    const timelineData = {
+      indus: {
+        title: 'Indus Valley Civilization (2500 BCE)',
+        content:
+          'One of the earliest urban civilizations, known for advanced city planning and sophisticated drainage systems.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Mohenjo-daro.jpg/300px-Mohenjo-daro.jpg'
+      },
+      maurya: {
+        title: 'Maurya Empire (322 BCE)',
+        content:
+          'India\'s first empire under Chandragupta Maurya, reaching its peak under Emperor Ashoka.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Chandra_gupta_maurya.jpg/220px-Chandra_gupta_maurya.jpg'
+      },
+      gupta: {
+        title: 'Gupta Empire (300 CE)',
+        content:
+          'Known as the Golden Age of India, marked by advances in science, art, and literature.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/GuptaEmpire300-600.png/300px-GuptaEmpire300-600.png'
+      },
+      sultanate: {
+        title: 'Delhi Sultanate (1206 CE)',
+        content:
+          'Series of Muslim dynasties that ruled northern India, introducing Islamic architecture and culture.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/QutubMinar.jpg/220px-QutubMinar.jpg'
+      },
+      mughal: {
+        title: 'Mughal Empire (1526 CE)',
+        content:
+          'A period of great cultural synthesis, producing monuments like the Taj Mahal.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Akbar_the_Great.jpg/220px-Akbar_the_Great.jpg'
+      },
+      colonial: {
+        title: 'Colonial India (1757 CE)',
+        content:
+          'A period marked by British rule that profoundly influenced India\'s society, economy, and politics.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/East_India_Company_Army_1850s.jpg/260px-East_India_Company_Army_1850s.jpg'
+      }
+    };
+
+    /********************
+     * CULTURAL DATA
+     ********************/
+    const culturalData = {
+      taj: {
+        title: 'Taj Mahal',
+        content:
+          'Symbol of eternal love, built by Emperor Shah Jahan in memory of his wife Mumtaz Mahal.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/250px-Taj_Mahal_%28Edited%29.jpeg'
+      },
+      ajanta: {
+        title: 'Ajanta Caves',
+        content:
+          'Ancient Buddhist monasteries with stunning murals and sculptures.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ajanta_%2863%29.jpg/300px-Ajanta_%2863%29.jpg'
+      },
+      food: {
+        title: 'Indian Cuisine',
+        content:
+          'Diverse culinary traditions with rich spices and flavors.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Chaat_Indian_food.JPG/300px-Chaat_Indian_food.JPG'
+      },
+      diwali: {
+        title: 'Festival of Lights',
+        content:
+          'Major Hindu festival celebrating the victory of light over darkness.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/9/99/The_Rangoli_of_Lights.jpg'
+      }
+    };
+
+    /********************
+     * FIGURE DATA
+     ********************/
+    const figureData = {
+      ashoka: {
+        title: 'Ashoka the Great',
+        content:
+          'Third emperor of the Mauryan Empire, known for spreading Buddhism and his principles of dharma.',
+        image:
+          'https://www.tsemrinpoche.com/wp-content/uploads/2016/06/EmperorAshoka029.jpg'
+      },
+      gandhi: {
+        title: 'Mahatma Gandhi',
+        content:
+          'Leader of India\'s independence movement, known for his philosophy of non-violence.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Mohandas_K._Gandhi%2C_portrait.jpg/300px-Mohandas_K._Gandhi%2C_portrait.jpg'
+      },
+      bhagatsingh: {
+        title: 'Bhagat Singh',
+        content:
+          'A revolutionary freedom fighter who inspired youth with his sacrifice and patriotism.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/2/2f/Bhagat_singh_1929.jpg'
+      },
+      bose: {
+        title: 'Subhas Chandra Bose',
+        content:
+          'A prominent nationalist leader who founded the Indian National Army (INA) during World War II.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/d/df/Subhas_Chandra_Bose_NR.jpg'
+      },
+      nehru: {
+        title: 'Jawaharlal Nehru',
+        content:
+          'First Prime Minister of India, a central figure in Indian politics before and after independence.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Jawaharlal_Nehru_in_India_League_of_London.jpg/300px-Jawaharlal_Nehru_in_India_League_of_London.jpg'
+      }
+    };
+
+    /********************
+     * MAP DATA (EXAMPLE)
+     ********************/
+    const mapData = {
+      pataliputra: {
+        title: 'Pataliputra (Modern-day Patna)',
+        content:
+          'Capital of the Mauryan Empire, one of the largest cities in the ancient world.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Patna%2C_BIHAR.jpg/300px-Patna%2C_BIHAR.jpg'
+      },
+      delhi: {
+        title: 'Delhi',
+        content:
+          'Historic capital that has seen the rise and fall of many empires.',
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/India_Gate_in_New_Delhi.jpg/300px-India_Gate_in_New_Delhi.jpg'
+      }
+    };
+
+    /********************
+     * QUIZ QUESTIONS
+     ********************/
+    const quizQuestions = [
+      {
+        question: 'Who said: "Be the change you wish to see in the world"?',
+        options: [
+          'Mahatma Gandhi',
+          'Jawaharlal Nehru',
+          'Rabindranath Tagore',
+          'Subhas Chandra Bose'
+        ],
+        correct: 0
+      },
+      {
+        question:
+          'Which empire is often referred to as the "Golden Age of India"?',
+        options: [
+          'Mughal Empire',
+          'Maurya Empire',
+          'Gupta Empire',
+          'Chola Empire'
+        ],
+        correct: 2
+      },
+      {
+        question:
+          'Which festival is known as the "Festival of Lights" in India?',
+        options: ['Holi', 'Dussehra', 'Raksha Bandhan', 'Diwali'],
+        correct: 3
+      },
+      {
+        question: 'Which era began with the Battle of Plassey in 1757?',
+        options: [
+          'Colonial Era',
+          'Gupta Era',
+          'Maurya Era',
+          'Sultanate Era'
+        ],
+        correct: 0
+      }
+    ];
+    let currentQuestionIndex = 0;
+    let quizScore = 0;
+
+    /********************
+     * INIT ON DOM LOAD
+     ********************/
+    document.addEventListener('DOMContentLoaded', () => {
+      loadQuestion();
+      lazyLoadImages();
+      fadeInOnScroll();
+      initDarkMode();
+    });
+
+    /********************
+     * QUIZ FUNCTIONS
+     ********************/
+    function loadQuestion() {
+      const quizContent = document.getElementById('quiz-content');
+      if (currentQuestionIndex >= quizQuestions.length) {
+        // Quiz finished
+        showCertificate();
+        return;
+      }
+      const qData = quizQuestions[currentQuestionIndex];
+      const questionHtml = `
+        <h4 class="text-xl font-bold mb-4">${qData.question}</h4>
+        <div class="space-y-4">
+          ${qData.options
+            .map(
+              (opt, i) => `
+              <div class="quiz-option" onclick="checkAnswer(this, ${i})">
+                ${opt}
+              </div>
+            `
+            )
+            .join('')}
+        </div>
+      `;
+      quizContent.innerHTML = questionHtml;
+      updateProgressBar();
+    }
+
+    function checkAnswer(element, answerIndex) {
+      const currentQuestion = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      options.forEach((opt) => {
+        opt.classList.remove('correct', 'incorrect');
+        opt.style.pointerEvents = 'none';
+      });
+
+      if (answerIndex === currentQuestion.correct) {
+        element.classList.add('correct');
+        quizScore++;
+      } else {
+        element.classList.add('incorrect');
+        options[currentQuestion.correct].classList.add('correct');
+      }
+
+      // Next question after a short delay
+      setTimeout(() => {
+        currentQuestionIndex++;
+        loadQuestion();
+      }, 1000);
+    }
+
+    function showCertificate() {
+      const quizName = document.getElementById('quizName').value || 'Student';
+      const quizContent = document.getElementById('quiz-content');
+      quizContent.innerHTML = `
+        <div class="text-center">
+          <h3 class="text-3xl font-bold mb-6">Certificate of Completion</h3>
+          <div class="border-4 border-double border-gray-300 p-8 mb-6">
+            <p class="text-xl mb-4">This certifies that</p>
+            <p class="text-2xl font-bold mb-4">${quizName}</p>
+            <p class="text-xl mb-4">has successfully completed the</p>
+            <p class="text-2xl font-bold mb-4">Indian History Quiz</p>
+            <p class="text-xl">Score: ${quizScore}/${quizQuestions.length}</p>
+            <div class="mt-6 text-sm text-gray-600">Date: ${new Date().toLocaleDateString()}</div>
+          </div>
+          <button onclick="downloadCertificate()" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700">
+            Download Certificate
+            <i class="fas fa-download ml-2"></i>
+          </button>
+        </div>
+      `;
+      updateProgressBar(100);
+
+      // ** CONFETTI CELEBRATION **
+      confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function downloadCertificate() {
+      alert('Certificate download started! (Implement PDF generation here)');
+    }
+
+    function updateProgressBar(forceValue = null) {
+      const progressBar = document.getElementById('quizProgressBar');
+      const progress =
+        forceValue !== null
+          ? forceValue
+          : Math.round(
+              (currentQuestionIndex / quizQuestions.length) * 100
+            );
+      progressBar.style.width = progress + '%';
+    }
+
+    /********************
+     * POPUP (TIMELINE, CULTURAL, FIGURE, MAP)
+     ********************/
+    function showTimelinePopup(id) {
+      const data = timelineData[id];
+      showPopup(data);
+    }
+    function showCulturalPopup(id) {
+      const data = culturalData[id];
+      showPopup(data);
+    }
+    function showFigurePopup(id) {
+      const data = figureData[id];
+      showPopup(data);
+    }
+    function showMapPopup(id) {
+      const data = mapData[id];
+      showPopup(data);
+    }
+
+    function showPopup(data) {
+      const popup = document.getElementById('popup');
+      const overlay = document.getElementById('overlay');
+      const content = document.getElementById('popupContent');
+
+      content.innerHTML = `
+        <h3 class="text-2xl font-bold mb-4">${data.title}</h3>
+        <img src="${data.image}" alt="${data.title}" class="mb-4 rounded w-full" />
+        <p>${data.content}</p>
+      `;
+
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    function hidePopup() {
+      const popup = document.getElementById('popup');
+      const overlay = document.getElementById('overlay');
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+
+    /********************
+     * FEEDBACK FORM
+     ********************/
+    document
+      .getElementById('feedback-form')
+      .addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const feedback = this.querySelector('textarea').value.trim();
+
+        if (email && feedback) {
+          alert('Thank you for your feedback!');
+          this.reset();
+        } else {
+          alert('Please fill in all fields.');
+        }
+      });
+
+    /********************
+     * MOBILE MENU
+     ********************/
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('hidden');
+    }
+
+    /********************
+     * CAROUSEL
+     ********************/
+    let currentSlide = 0;
+    const slidesCarousel = document.querySelectorAll('.carousel-item');
+    const totalSlidesCarousel = slidesCarousel.length;
+
+    function moveCarousel(direction) {
+      currentSlide += direction;
+      if (currentSlide < 0) currentSlide = totalSlidesCarousel - 1;
+      if (currentSlide >= totalSlidesCarousel) currentSlide = 0;
+      const track = document.getElementById('figureCarousel');
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      track.style.transition = 'transform 0.5s ease-in-out';
+    }
+
+    // Auto-slide carousel every 5 seconds
+    let carouselInterval = setInterval(() => {
+      moveCarousel(1);
+    }, 5000);
+
+    // Pause carousel on hover
+    const carouselContainer = document.querySelector('.carousel-container');
+    carouselContainer.addEventListener('mouseover', () => {
+      clearInterval(carouselInterval);
+    });
+    carouselContainer.addEventListener('mouseout', () => {
+      carouselInterval = setInterval(() => {
+        moveCarousel(1);
+      }, 5000);
+    });
+
+    /********************
+     * LAZY-LOAD IMAGES
+     ********************/
+    function lazyLoadImages() {
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.getAttribute('data-src');
+              img.onload = () => {
+                img.classList.add('lazy-loaded');
+              };
+              observer.unobserve(img);
             }
-        };
-
-        const culturalData = {
-            taj: {
-                title: "Taj Mahal",
-                content: "Symbol of eternal love, built by Emperor Shah Jahan in memory of his beloved wife Mumtaz Mahal.",
-                image: "b"
-            },
-            ajanta: {
-                title: "Ajanta Caves",
-                content: "Ancient Buddhist monasteries with stunning murals and sculptures.",
-                image: "b"
-            },
-            food: {
-                title: "Indian Cuisine",
-                content: "Diverse culinary traditions with rich spices and flavors.",
-                image: "b"
-            },
-            diwali: {
-                title: "Festival of Lights",
-                content: "Major Hindu festival celebrating the victory of light over darkness.",
-                image: "b"
-            }
-        };
-
-        function showTimelinePopup(id) {
-            const data = timelineData[id];
-            showPopup(data);
-        }
-
-        function showCulturalPopup(id) {
-            const data = culturalData[id];
-            showPopup(data);
-        }
-
-        function showPopup(data) {
-            const popup = document.getElementById('popup');
-            const overlay = document.getElementById('overlay');
-            const content = document.getElementById('popupContent');
-            
-            content.innerHTML = `
-                <h3 class="text-2xl font-bold mb-4">${data.title}</h3>
-                <img src="${data.image}" alt="${data.title}" class="mb-4 rounded w-full">
-                <p class="text-gray-700">${data.content}</p>
-            `;
-            
-            popup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function hidePopup() {
-            const popup = document.getElementById('popup');
-            const overlay = document.getElementById('overlay');
-            popup.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-
-        let quizScore = 0;
-        const totalQuestions = 1;
-
-        function checkAnswer(element, answer) {
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-                opt.style.pointerEvents = 'none';
-            });
-
-            if (answer === 'gandhi') {
-                element.classList.add('correct');
-                quizScore++;
-                setTimeout(() => {
-                    showCertificate();
-                }, 1000);
-            } else {
-                element.classList.add('incorrect');
-                document.querySelector('.quiz-option:first-child').classList.add('correct');
-            }
-        }
-
-        function showCertificate() {
-            const popup = document.getElementById('popup');
-            const overlay = document.getElementById('overlay');
-            const content = document.getElementById('popupContent');
-            
-            content.innerHTML = `
-                <div class="text-center">
-                    <h3 class="text-3xl font-bold mb-6">Certificate of Completion</h3>
-                    <div class="border-4 border-double border-gray-300 p-8 mb-6">
-                        <p class="text-xl mb-4">This certifies that</p>
-                        <p class="text-2xl font-bold mb-4">${'Student'}</p>
-                        <p class="text-xl mb-4">has successfully completed the</p>
-                        <p class="text-2xl font-bold mb-4">Indian History Quiz</p>
-                        <p class="text-xl">Score: ${quizScore}/${totalQuestions}</p>
-                        <div class="mt-6 text-sm text-gray-600">Date: ${new Date().toLocaleDateString()}</div>
-                    </div>
-                    <button onclick="downloadCertificate()" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700">
-                        Download Certificate
-                        <i class="fas fa-download ml-2"></i>
-                    </button>
-                </div>
-            `;
-            
-            popup.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-
-        function downloadCertificate() {
-            alert('Certificate download started!');
-            // In a real implementation, this would generate and download a PDF
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
+          });
         });
 
-        // Map interaction
-        const mapData = {
-            pataliputra: {
-                title: "Pataliputra (Modern-day Patna)",
-                content: "Capital of the Mauryan Empire, one of the largest cities in the ancient world.",
-                image: "b"
-            },
-            delhi: {
-                title: "Delhi",
-                content: "Historic capital that has seen the rise and fall of many empires.",
-                image: "b"
-            }
-        };
-
-        function showMapPopup(id) {
-            const data = mapData[id];
-            showPopup(data);
-        }
-
-        // Feedback form handling
-        document.getElementById('feedback-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            const feedback = this.querySelector('textarea').value;
-            
-            if (email && feedback) {
-                alert('Thank you for your feedback!');
-                this.reset();
-            } else {
-                alert('Please fill in all fields.');
-            }
+        lazyImages.forEach((img) => imageObserver.observe(img));
+      } else {
+        // Fallback for browsers without IntersectionObserver
+        lazyImages.forEach((img) => {
+          img.src = img.getAttribute('data-src');
+          img.onload = () => {
+            img.classList.add('lazy-loaded');
+          };
         });
+      }
+    }
 
-        // Mobile navigation
-        function toggleMobileMenu() {
-            const nav = document.querySelector('.md\\:flex');
-            nav.classList.toggle('hidden');
-        }
-
-        // Page load animations
-        window.addEventListener('load', function() {
-            document.querySelectorAll('.timeline-node').forEach((node, index) => {
-                setTimeout(() => {
-                    node.style.opacity = '1';
-                    node.style.transform = 'translateY(0)';
-                }, index * 200);
-            });
+    /********************
+     * FADE-IN ON SCROLL
+     ********************/
+    function fadeInOnScroll() {
+      const fadeElems = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
         });
+      });
+      fadeElems.forEach((elem) => observer.observe(elem));
+    }
 
-        // Lazy loading for images
-        document.addEventListener("DOMContentLoaded", function() {
-            const lazyImages = document.querySelectorAll('img');
-            
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.style.opacity = '1';
-                        observer.unobserve(img);
-                    }
-                });
-            });
+    /********************
+     * DARK MODE
+     ********************/
+    function initDarkMode() {
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+      const body = document.body;
 
-            lazyImages.forEach(img => imageObserver.observe(img));
-        });
-    </script>
+      // Check localStorage
+      if (localStorage.getItem('darkMode') === 'true') {
+        body.classList.add('dark-mode');
+      }
+
+      // Desktop toggle
+      darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+      });
+
+      // Mobile toggle
+      darkModeToggleMobile.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+      });
+    }
+
+    /********************
+     * SCROLL TO TOP
+     ********************/
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        scrollToTopBtn.style.display = 'block';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    });
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
