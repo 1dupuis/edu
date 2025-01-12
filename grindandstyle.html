@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grind & Style - Custom Sport & Sneaker Shop</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link 
+    rel="stylesheet" 
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@400;500&display=swap" 
+  />
+
+  <!-- Font Awesome CDN (Version: 6.7.2) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- Animate.css (Version: 4.1.1) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" 
+    integrity="sha512-VVXwnnA5btN8/kDG/X+fQifXReEON+8D7lGSVqTr5P3PwTnO1XnX1n0KhBhV33hQ3ErVlgMDAnlI60YJcX6OKPw==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- AOS (Animate On Scroll) CSS (Version: 2.3.4) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" 
+    integrity="sha512-p4u2XmkGHfGt+kLRNqNcC0a8BAX8ItmWjw0j5SxDx05O+FHl+fDZ10QvR1sC2XKcHhJpuM0/9C3dk6YcX6OKPw==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- Swiper.js CSS (Version: 11.0.5) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css" 
+    integrity="sha512-V6ew+T2aWe/KxDzLBKnAbV1rEjM76sMrrJqBB8o2XQ7I3P78lD/Yh4CIhJULkhraVFBNhdTV3+j+qDq+Ykg8Kg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- Lightbox2 CSS (Version: 2.11.5) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css" 
+    integrity="sha512-qjCEkZ0sRqC3Vg4Dg3h7l0w6BfzOtJ2AnLQ7i5pjw8XyUHI4AQKz9+hRTDPTlPqElyuVnPzgOl0Gk9JNNgaxkg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      --primary-color: #ff5722;
+      --secondary-color: #333;
+      --accent-color: #ffd54f;
+      --background-color: #f0f0f0;
+      --text-color: #333;
+      --light-bg: #fff;
+      --dark-bg: #1c1c1c;
+      --transition-speed: 0.3s;
+      --font-primary: 'Montserrat', sans-serif;
+      --font-secondary: 'Roboto', sans-serif;
+    }
+
+    /* General Resets */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: var(--font-primary);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Navbar Styles */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: background-color var(--transition-speed) ease;
+    }
+
+    nav.scrolled {
+      background: var(--secondary-color);
+    }
+
+    nav .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+      z-index: 1001;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul li {
+      color: #fff;
+      cursor: pointer;
+      font-weight: 500;
+      position: relative;
+      transition: color var(--transition-speed) ease;
+    }
+
+    nav ul li::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background: var(--accent-color);
+      left: 0;
+      bottom: -5px;
+      transition: width var(--transition-speed) ease;
+    }
+
+    nav ul li:hover::after {
+      width: 100%;
+    }
+
+    /* Hamburger Menu Styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: #fff;
+      margin-bottom: 4px;
+      border-radius: 5px;
+      transition: all var(--transition-speed) ease;
+    }
+
+    /* Mobile Menu */
+    @media (max-width: 768px) {
+      nav ul {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 250px;
+        background: var(--secondary-color);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: right var(--transition-speed) ease;
+      }
+
+      nav ul.active {
+        right: 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .hero video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      filter: brightness(50%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,87,34,0.7), rgba(255,213,79,0.7));
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 700px;
+      padding: 0 1rem;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: slideInLeft 1s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      animation: slideInRight 1s ease forwards;
+      opacity: 0;
+    }
+
+    .hero-content .cta-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--secondary-color);
+      font-weight: 700;
+      border-radius: 4px;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 1s;
+      opacity: 0;
+    }
+
+    .hero-content .cta-btn:hover {
+      background: #fff176;
+      transform: scale(1.05);
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Section Styles */
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 1rem auto;
+      border-radius: 2px;
+    }
+
+    /* Two Column Layout */
+    .two-column {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .two-column .text {
+      flex: 1;
+      min-width: 300px;
+      max-width: 600px;
+    }
+
+    .two-column .text h2 {
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+    }
+
+    .two-column .text p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .two-column img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    }
+
+    .two-column img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    /* Product Customization */
+    .customization {
+      background: var(--light-bg);
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      margin-bottom: 2rem;
+    }
+
+    .customization:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .customization h2 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .customization p {
+      margin-bottom: 2rem;
+      color: #555;
+    }
+
+    .color-picker {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .color-picker label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .color-picker input[type="color"], .color-picker select {
+      width: 40px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: transform var(--transition-speed) ease;
+      margin-top: 0.5rem;
+      padding: 0;
+      appearance: none;
+    }
+
+    .color-picker select {
+      width: 100px;
+      height: 40px;
+      border-radius: 4px;
+      background: #fff;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+    }
+
+    .color-picker select:hover {
+      background: #f0f0f0;
+      transform: scale(1.02);
+    }
+
+    .color-picker input[type="color"]:hover {
+      transform: scale(1.1);
+    }
+
+    .sneaker-preview {
+      width: 300px;
+      height: auto;
+      margin: 0 auto;
+      transition: filter var(--transition-speed) ease;
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      background: #fff;
+      padding: 1rem;
+    }
+
+    /* Lightbox Gallery */
+    .gallery {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .gallery a img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .gallery a:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Workshops & Events - Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background-color: var(--light-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .card i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary-color);
+    }
+
+    .card p {
+      line-height: 1.6;
+      color: #555;
+    }
+
+    /* Testimonials Carousel */
+    .testimonials {
+      background: var(--dark-bg);
+      color: #fff;
+      padding: 4rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+      transition: background var(--transition-speed) ease;
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--accent-color);
+    }
+
+    .swiper-testimonials {
+      padding: 2rem 0;
+    }
+
+    .swiper-testimonials .swiper-slide {
+      background: var(--dark-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .swiper-testimonials .swiper-slide p {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+
+    .swiper-testimonials .swiper-slide h4 {
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    /* Skate Park Highlight */
+    .highlight {
+      background: var(--primary-color);
+      color: #fff;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-radius: 8px;
+      margin-top: 2rem;
+      transition: background var(--transition-speed) ease;
+    }
+
+    .highlight h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .highlight p {
+      max-width: 800px;
+      margin: 0.5rem auto;
+      line-height: 1.6;
+    }
+
+    /* Contact Section */
+    .contact {
+      background: var(--light-bg);
+      padding: 4rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      margin-top: 2rem;
+    }
+
+    .contact:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .contact h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    .contact form {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact form input,
+    .contact form textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    }
+
+    .contact form input:focus,
+    .contact form textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 5px var(--primary-color);
+      outline: none;
+    }
+
+    .contact form button {
+      padding: 0.8rem;
+      background: var(--primary-color);
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      color: #fff;
+    }
+
+    .contact form button:hover {
+      background: #e64a19;
+      transform: scale(1.05);
+    }
+
+    /* Newsletter Section */
+    .newsletter {
+      background: var(--secondary-color);
+      color: #fff;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 8px;
+      margin-top: 2rem;
+      transition: background var(--transition-speed) ease;
+    }
+
+    .newsletter h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      color: var(--accent-color);
+    }
+
+    .newsletter p {
+      margin-bottom: 2rem;
+      color: #ccc;
+    }
+
+    .newsletter form {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .newsletter form input[type="email"] {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-secondary);
+      font-size: 1rem;
+      width: 300px;
+    }
+
+    .newsletter form button {
+      padding: 0.8rem 1.5rem;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      color: var(--secondary-color);
+    }
+
+    .newsletter form button:hover {
+      background: #fff176;
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark-bg);
+      color: #ccc;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    footer p {
+      margin-bottom: 1rem;
+    }
+
+    footer .social-icons {
+      margin-top: 1rem;
+    }
+
+    footer .social-icons a {
+      color: #ccc;
+      margin: 0 0.5rem;
+      font-size: 1.5rem;
+      transition: color var(--transition-speed) ease;
+    }
+
+    footer .social-icons a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--accent-color);
+      color: var(--secondary-color);
+      padding: 0.8rem;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+      z-index: 1000;
+    }
+
+    #backToTop:hover {
+      background: #fff176;
+      transform: scale(1.1);
+    }
+
+    /* Testimonials Slider */
+    .swiper-testimonials .swiper-pagination-bullet {
+      background: var(--primary-color);
+      opacity: 1;
+    }
+
+    .swiper-testimonials .swiper-pagination-bullet-active {
+      background: var(--accent-color);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+
+      .two-column {
+        flex-direction: column;
+      }
+
+      .color-picker {
+        flex-direction: column;
+      }
+
+      .newsletter form {
+        flex-direction: column;
+      }
+
+      .newsletter form input[type="email"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="logo">Grind & Style</div>
+    <ul id="nav-links">
+      <li onclick="scrollToSection('about')">About</li>
+      <li onclick="scrollToSection('localTalent')">Local Talent</li>
+      <li onclick="scrollToSection('customization')">Customize</li>
+      <li onclick="scrollToSection('workshops')">Workshops</li>
+      <li onclick="scrollToSection('testimonials')">Testimonials</li>
+      <li onclick="scrollToSection('contact')">Contact</li>
+    </ul>
+    <div class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero" data-aos="fade-in">
+    <video autoplay muted loop>
+      <source src="https://media.istockphoto.com/id/1138688910/video/hanging-bright-colored-sneakers-fashion-woman-trendy-trainers-stylish-hipster-plimsole-bright.mp4?s=mp4-640x640-is&k=20&c=mzutB1Zh5GAcr4fYKaB_9qKOovOBqgjfw7RZj2sjaUk=" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+      <h1 class="animate__animated animate__fadeInDown">Grind & Style</h1>
+      <p class="animate__animated animate__fadeInUp">
+        Customize Your Gear. Showcase Your Style. Join the Grind & Style Community.
+      </p>
+      <a href="#about" class="cta-btn">Discover More</a>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <section id="about" data-aos="fade-up">
+    <div class="section-title">Our Concept</div>
+    <div class="two-column">
+      <div class="text">
+        <h2>Express Yourself</h2>
+        <p>
+          At Grind & Style, we empower teens to express their individuality through custom-designed skateboards, soccer cleats, skates, and sneakers. Choose your colors, patterns, and add unique art to make your gear truly one-of-a-kind.
+        </p>
+        <p>
+          Our on-site skate park offers demos and lessons from local pros, while our "Local Talent Wall" showcases the creative works of Northern Ontario's youth. Whether you're hitting the streets or the field, Grind & Style has everything you need to stand out.
+        </p>
+      </div>
+      <img 
+        src="https://partnershipeditions.com/cdn/shop/files/artist-header-pe-x-reformation-the-skateboard-collection_2048x1250.jpg?v=7433263097959859745" 
+        alt="Custom Skateboard" 
+        data-aos="fade-left"
+      />
+    </div>
+  </section>
+
+  <!-- Product Customization Section -->
+  <section id="customization" data-aos="fade-up">
+    <div class="section-title">Customize Your Sneakers</div>
+    <div class="customization">
+      <h2>Choose Your Colors & Patterns</h2>
+      <p>Select colors and patterns to personalize different parts of your sneakers and make them uniquely yours!</p>
+      <div class="color-picker">
+        <label>
+          Body Color
+          <input type="color" id="bodyColor" value="#ff5722" aria-label="Choose body color">
+        </label>
+        <label>
+          Laces Color
+          <input type="color" id="lacesColor" value="#ffffff" aria-label="Choose laces color">
+        </label>
+        <label>
+          Sole Color
+          <input type="color" id="soleColor" value="#333333" aria-label="Choose sole color">
+        </label>
+        <label>
+          Accent Pattern
+          <select id="patternSelect" aria-label="Choose accent pattern">
+            <option value="none">None</option>
+            <option value="stripes">Stripes</option>
+            <option value="dots">Dots</option>
+            <option value="zigzag">ZigZag</option>
+          </select>
+        </label>
+      </div>
+      <!-- SVG Sneaker -->
+      <div class="sneaker-preview">
+        <svg id="sneakerSVG" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
+          <!-- Sole -->
+          <path id="sole" d="M50,250 Q150,300 250,250 L250,270 Q150,320 50,270 Z" fill="#333333"/>
+          <!-- Body -->
+          <path id="body" d="M70,200 Q100,180 150,200 Q200,220 250,200 Q300,180 330,200 Q370,220 390,200 L390,150 Q370,130 350,140 Q330,150 300,140 Q270,130 250,150 Q230,170 200,160 Q170,150 150,160 Q130,170 100,160 Q80,150 60,160 Z" fill="#ff5722"/>
+          <!-- Laces -->
+          <line id="laces" x1="150" y1="200" x2="250" y2="200" stroke="#ffffff" stroke-width="5"/>
+          <line x1="150" y1="210" x2="250" y2="210" stroke="#ffffff" stroke-width="5"/>
+          <line x1="150" y1="220" x2="250" y2="220" stroke="#ffffff" stroke-width="5"/>
+          <!-- Accent Pattern -->
+          <g id="accentPattern" fill="none" stroke="#ffd54f" stroke-width="2" visibility="hidden">
+            <!-- Patterns will be injected via JavaScript -->
+          </g>
+        </svg>
+      </div>
+      <!-- Reset and Download Buttons -->
+      <div style="margin-top: 1.5rem;">
+        <button id="resetColors" style="padding: 0.5rem 1rem; margin-right: 1rem; background: var(--primary-color); color: #fff; border: none; border-radius: 4px; cursor: pointer; transition: background-color var(--transition-speed) ease;">Reset Colors</button>
+        <button id="downloadSneaker" style="padding: 0.5rem 1rem; background: var(--accent-color); color: var(--secondary-color); border: none; border-radius: 4px; cursor: pointer; transition: background-color var(--transition-speed) ease;">Download Sneaker</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Local Talent Wall -->
+  <section id="localTalent" data-aos="fade-up">
+    <div class="section-title">Local Talent Wall</div>
+    <p style="text-align:center; max-width:800px; margin:0 auto;" data-aos="fade-up">
+      Discover and support the creative talents of Northern Ontario's youth. Click on an artwork to view in detail.
+    </p>
+    <div class="gallery">
+      <!-- Lightbox Gallery -->
+      <a href="https://www.yankodesign.com/images/design_news/2023/01/these-marvel-x-nike-collab-sneaker-concepts-were-completely-generated-by-ai/marvel_nike_sneakers_midjourney_1.jpg" data-lightbox="talent" data-title="Art by Jane Doe">
+        <img src="https://www.yankodesign.com/images/design_news/2023/01/these-marvel-x-nike-collab-sneaker-concepts-were-completely-generated-by-ai/marvel_nike_sneakers_midjourney_1.jpg" alt="Local Art 1" />
+      </a>
+      <a href="https://cdn.ballwool.com/products/l/156223_2f4b71c0968e4f5b1f7872a8b08e2fc39c48fa6e65d75b10dd613f1fc5f7120ed2bc62f1d3dbfe458abd281926cc575d022c74fd4a6448457aea7b1343d662de.webp" data-lightbox="talent" data-title="Art by John Smith">
+        <img src="https://cdn.ballwool.com/products/l/156223_2f4b71c0968e4f5b1f7872a8b08e2fc39c48fa6e65d75b10dd613f1fc5f7120ed2bc62f1d3dbfe458abd281926cc575d022c74fd4a6448457aea7b1343d662de.webp" alt="Local Art 2" />
+      </a>
+      <a href="https://akronartmuseum.org/wp-content/uploads/2023/08/Skateboards.jpg" data-lightbox="talent" data-title="Art by Emily Davis">
+        <img src="https://akronartmuseum.org/wp-content/uploads/2023/08/Skateboards.jpg" alt="Local Art 3" />
+      </a>
+      <!-- Add more artworks as needed -->
+    </div>
+  </section>
+
+  <!-- Workshops Section -->
+  <section id="workshops" data-aos="fade-up">
+    <div class="section-title">Workshops & Events</div>
+    <p style="text-align:center; max-width:800px; margin:0 auto;" data-aos="fade-up">
+      Participate in our hands-on workshops to design and customize your gear. Stay tuned for upcoming competitions and exclusive product drops!
+    </p>
+    <div class="cards">
+      <div class="card" data-aos="zoom-in">
+        <i class="fas fa-paint-brush"></i>
+        <h3>Design Workshops</h3>
+        <p>Learn from industry professionals how to paint, airbrush, and stylize your sneakers and boards.</p>
+      </div>
+      <div class="card" data-aos="zoom-in" data-aos-delay="100">
+        <i class="fas fa-bullhorn"></i>
+        <h3>Product Drops</h3>
+        <p>Be the first to access exclusive releases, collaborations, and limited-edition gear.</p>
+      </div>
+      <div class="card" data-aos="zoom-in" data-aos-delay="200">
+        <i class="fas fa-trophy"></i>
+        <h3>Competitions</h3>
+        <p>Show off your skills on the board or field. Win exciting prizes and earn bragging rights!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" data-aos="fade-up">
+    <div class="section-title">What Our Customers Say</div>
+    <div class="testimonials">
+      <h2>Testimonials</h2>
+      <div class="swiper-testimonials swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <p>"Grind & Style helped me create the perfect skateboard that truly represents my style. Highly recommended!"</p>
+            <h4>- Alex M.</h4>
+          </div>
+          <div class="swiper-slide">
+            <p>"The customization workshops are amazing! I learned so much and now my sneakers are unique."</p>
+            <h4>- Jamie L.</h4>
+          </div>
+          <div class="swiper-slide">
+            <p>"Great community and awesome products. The skate park is a fantastic addition to the store."</p>
+            <h4>- Taylor S.</h4>
+          </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skate Park Highlight -->
+  <section class="highlight" id="park" data-aos="fade-up">
+    <h2>Skate Park & Demo Zone</h2>
+    <p>
+      Test out your newly customized gear in our state-of-the-art skate park. From half-pipes to rails, our indoor and outdoor setups cater to all skill levels. Attend free lessons or watch local pros demonstrate their skills during special events!
+    </p>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter" data-aos="fade-up">
+    <h2>Join Our Newsletter</h2>
+    <p>Stay updated with the latest product drops, workshops, and exclusive events.</p>
+    <form id="newsletterForm" action="#" method="POST">
+      <input type="email" name="email" placeholder="Enter your email" required aria-label="Email Address">
+      <button type="submit">Subscribe</button>
+    </form>
+    <p id="newsletterMessage" style="margin-top: 1rem; color: #fff; display: none;">Thank you for subscribing!</p>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact" data-aos="fade-up">
+    <h2>Get in Touch</h2>
+    <form id="contactForm" action="#" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required aria-label="Your Name" />
+      <input type="email" name="email" placeholder="Your Email" required aria-label="Your Email" />
+      <textarea name="message" rows="5" placeholder="Your Message" required aria-label="Your Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="contactMessage" style="margin-top: 1rem; color: #555; display: none;">Thank you for reaching out! We'll get back to you soon.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Grind & Style. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <div id="backToTop" aria-label="Back to Top" title="Back to Top">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
+  <!-- JavaScript Libraries -->
+  <!-- AOS JS (Version: 2.3.4) -->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" 
+    integrity="sha512-YR0dMfSx1RqIUSq0kMIw+uDQXk1ASJw3kqYlMvbT9N0JdEVwZc0tJtL5K1Kk31jJQd6k0BLKpGBwQ5rMqG4T5A==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer">
+  </script>
+
+  <!-- Swiper.js JS (Version: 11.0.5) -->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js" 
+    integrity="sha512-/ZSpn93qwxuLORiZttjGdmGFU00u5X6wTR0b/mg7+MQL3+Nf3Bfjq3WVAdnVt68OZpGv+PqSbgAPZ+UCjc/Bow==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer">
+  </script>
+
+  <!-- Lightbox2 JS (Version: 2.11.5) -->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js" 
+    integrity="sha512-tkA+jwHuqFfvtR1cm0r+WtkXRjyVuFctPThEaoHDC9xS1PK8sGMeqRU1k6u1d1N6cq7Dw8b3kQm4X3gN4eAB8g==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer">
+  </script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+
+    // Initialize Swiper for Testimonials
+    const swiperTestimonials = new Swiper('.swiper-testimonials', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      slidesPerView: 1,
+      spaceBetween: 30,
+    });
+
+    // Change Navbar Background on Scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if(window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      // Show/Hide Back to Top Button
+      const backToTop = document.getElementById('backToTop');
+      if (window.scrollY > 500) {
+        backToTop.style.display = 'flex';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+
+    // Smooth Scroll Function
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      window.scrollTo({
+        top: section.offsetTop - 80, 
+        behavior: 'smooth'
+      });
+    }
+
+    // Back to Top Button Click
+    document.getElementById('backToTop').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+      hamburger.setAttribute('aria-expanded', !expanded);
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('#nav-links li').forEach(link => {
+      link.addEventListener('click', () => {
+        if(navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', false);
+        }
+      });
+    });
+
+    // Accessibility: Allow hamburger toggle with Enter key
+    hamburger.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        hamburger.click();
+      }
+    });
+
+    // Customize Sneaker Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const bodyColorInput = document.getElementById('bodyColor');
+      const lacesColorInput = document.getElementById('lacesColor');
+      const soleColorInput = document.getElementById('soleColor');
+      const patternSelect = document.getElementById('patternSelect');
+      const sneakerSVG = document.getElementById('sneakerSVG');
+      const resetButton = document.getElementById('resetColors');
+      const downloadButton = document.getElementById('downloadSneaker');
+
+      // Default Colors and Pattern
+      const defaultColors = {
+        body: '#ff5722',
+        laces: '#ffffff',
+        sole: '#333333'
+      };
+      const defaultPattern = 'none';
+
+      // Update Colors Function
+      function updateColors() {
+        const bodyColor = bodyColorInput.value;
+        const lacesColor = lacesColorInput.value;
+        const soleColor = soleColorInput.value;
+        const selectedPattern = patternSelect.value;
+
+        document.getElementById('body').setAttribute('fill', bodyColor);
+        document.getElementById('laces').setAttribute('stroke', lacesColor);
+        document.getElementById('sole').setAttribute('fill', soleColor);
+
+        // Update Pattern
+        const accentPattern = document.getElementById('accentPattern');
+        if(selectedPattern !== 'none') {
+          accentPattern.setAttribute('visibility', 'visible');
+          if(selectedPattern === 'stripes') {
+            accentPattern.innerHTML = `
+              <path d="M200,160 Q210,170 220,160" />
+              <path d="M240,160 Q250,170 260,160" />
+              <path d="M200,180 Q210,190 220,180" />
+              <path d="M240,180 Q250,190 260,180" />
+            `;
+          } else if(selectedPattern === 'dots') {
+            accentPattern.innerHTML = `
+              <circle cx="210" cy="165" r="3"/>
+              <circle cx="250" cy="165" r="3"/>
+              <circle cx="210" cy="185" r="3"/>
+              <circle cx="250" cy="185" r="3"/>
+            `;
+          } else if(selectedPattern === 'zigzag') {
+            accentPattern.innerHTML = `
+              <path d="M200,160 L205,165 L210,160 L215,165 L220,160" />
+              <path d="M240,160 L245,165 L250,160 L255,165 L260,160" />
+            `;
+          }
+        } else {
+          accentPattern.setAttribute('visibility', 'hidden');
+          accentPattern.innerHTML = '';
+        }
+      }
+
+      // Event Listeners for Color Inputs and Pattern Select
+      bodyColorInput.addEventListener('input', updateColors);
+      lacesColorInput.addEventListener('input', updateColors);
+      soleColorInput.addEventListener('input', updateColors);
+      patternSelect.addEventListener('change', updateColors);
+
+      // Reset Colors and Pattern
+      resetButton.addEventListener('click', function() {
+        bodyColorInput.value = defaultColors.body;
+        lacesColorInput.value = defaultColors.laces;
+        soleColorInput.value = defaultColors.sole;
+        patternSelect.value = defaultPattern;
+        updateColors();
+      });
+
+      // Download Sneaker Function
+      downloadButton.addEventListener('click', function() {
+        // Serialize SVG
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(sneakerSVG);
+
+        // Add name spaces.
+        if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+          source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if(!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)){
+          source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        // Add XML declaration
+        source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+        // Convert SVG source to URI data scheme.
+        const url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
+
+        // Create temporary link to trigger download
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "custom_sneaker.svg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Optional: Also provide PNG download
+        const canvas = document.createElement("canvas");
+        const svgSize = sneakerSVG.getBoundingClientRect();
+        canvas.width = svgSize.width;
+        canvas.height = svgSize.height;
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = function() {
+          ctx.drawImage(img, 0, 0);
+          const pngUrl = canvas.toDataURL("image/png");
+          const pngLink = document.createElement("a");
+          pngLink.href = pngUrl;
+          pngLink.download = "custom_sneaker.png";
+          document.body.appendChild(pngLink);
+          pngLink.click();
+          document.body.removeChild(pngLink);
+        };
+        img.src = url;
+      });
+    });
+
+    // Newsletter Form Submission (Mockup)
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Mockup: Display thank you message
+      const message = document.getElementById('newsletterMessage');
+      message.style.display = 'block';
+      this.reset();
+    });
+
+    // Contact Form Submission (Mockup)
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Mockup: Display thank you message
+      const message = document.getElementById('contactMessage');
+      message.style.display = 'block';
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
